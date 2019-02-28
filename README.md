@@ -1,37 +1,52 @@
-# date-select
+﻿# date-select
 
 #### 介绍
-一个日历sku选择的demo
+一个日历sku选择的微信小程序demo
+## 每一个日期都是一个数组
+- ### 初始化日历数组 （注意深拷贝问题）
+- ### demo的样式问题没有细调。且下面的代码是实际业务上使用的，与demo上的不一致，但是实现的方法大致相同
+```
+// 初始化日期数组,
+    // 取最近三个月数组，每一天赋值一个时间戳
+    resetDate() {
+      let month = new Date().getMonth()
+      let year = new Date().getFullYear()
+      const dateArr = []
+      for (let i = month; i < month + 3; i += 1) {
+        const endDate = new Date(year, i + 1, 0).getDate()
+        const day = new Date(year, i, 1).getDay()
+        dateArr.push({
+          dateTab: year + '-' + (i * 1 + 1),
+          endDate,
+          year,
+          month: i,
+          day,
+          sku: []
+        })
+        // 12月份加一年，月份变为1月
+        if (month === 12) {
+          year += 1
+          month = 1
+        }
+      }
+      // 每一天赋值一个时间戳
+      for (let a = 0; a < dateArr.length; a += 1) {
+        //深拷贝问题
+        const dateArrs = JSON.parse(JSON.stringify(dateArr[a]))
+        for (let j = 1; j < dateArrs.endDate + 1; j += 1) {
+          dateArr[a].sku.push({
+            maxSum: 0,
+            minSum: 0,
+            sum: 0,
+            price: 0,
+            closePrice: 0,
+            // 选中编辑状态
+            status: false,
+            date: new Date(dateArrs.year, dateArrs.month, j).valueOf()
+          })
+        }
+      }
+      this.dateArr = dateArr
+    },
+```
 
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 使用说明
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### 参与贡献
-
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
