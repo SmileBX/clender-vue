@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view wx:for="{{month}}" wx:key="index">
+  <view class="title">{{item.month}}月</view>
+  <view class="day" >
+     <view wx:for="{{day}}" wx:key="dayIndex" wx:for-index="dayIndex" wx:for-item="day">{{day}}</view>
+  </view>
+  <view class="date">
+     <view wx:for="{{item.date}}" wx:for-index="dateIndex" wx:key="dateIndex" wx:for-item="date"
+     class="item"
+     style="{{dateIndex===0?'margin-left:'+item.oneDay*107+'rpx':''}};{{(item.month===item.newMonth)&&(item.newDate>date.date)?'color:#999':''}};{{(item.month===item.newMonth)&&(item.newDate===date.date)?'background:blue;color:#fff;':''}}"
+     >
+        <view class="sum">
+          <view>{{date.date+1}}</view>
+          <view class="price">￥{{date.price}}</view>
+          <view class="num">（余{{date.num}}）</view>
+        </view>
+     </view>
+  </view>
+  <view></view>
+</view>
